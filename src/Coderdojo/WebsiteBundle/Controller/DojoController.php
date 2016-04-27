@@ -36,6 +36,14 @@ class DojoController extends Controller
     }
 
     /**
+     * @Route("/mijn-dojo/toevoegen", name="manage-add-manually")
+     */
+    public function manageAddManuallyAction()
+    {
+        return $this->render('CoderdojoWebsiteBundle:Pages:add-dojo.html.twig');
+    }
+
+    /**
      * @Route("/mijn-dojo/beheren/toevoegen", name="new-dojo")
      * @param Request $request
      * @return Response

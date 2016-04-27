@@ -1,0 +1,58 @@
+{% extends "CoderdojoWebsiteBundle::index.html.twig" %}
+
+{% block content %}
+    <!--=== Breadcrumbs ===-->
+    <div class="breadcrumbs margin-bottom-40">
+        <div class="container">
+            <h1 class="pull-left">Beheer jouw Dojos</h1>
+        </div><!--/container-->
+    </div><!--/breadcrumbs-->
+    <!--=== End Breadcrumbs ===-->
+
+    <div class="container">
+        <div class="row margin-bottom-30">
+            Gonna add u.
+        </div>
+    </div>
+
+    <script type="text/javascript" language="javascript">
+        $("#newDojo").on("submit", function(e){
+            e.preventDefault();
+            $("#btn_submit").attr('disabled', 'disabled');
+            $("#spinner").show();
+            $("#error").html('');
+
+            var eid = $("#eid").val();
+
+            $.ajax({
+                        method: "GET",
+                        url: "{{ path('new-dojo') }}",
+                        data: { eid: eid }
+                    })
+                    .done(function(msg) {
+                        if(msg == "ok") {
+                            location.reload();
+                        }else{
+                            $("#error").html(msg);
+                        }
+                    })
+                    .fail(function(msg){
+                        $("#error").html("Er is iets mis gegaan!");
+                    }).
+            always(function(){
+                $("#btn_submit").removeAttr('disabled');
+                $("#spinner").hide();
+            });
+
+            return false;
+        });
+    </script>
+{% endblock %}
+
+{% block description %}
+    In heel Nederland worden er CoderDojo's gehouden. Kijk hier waar er een bij jou in de buurt is!
+{% endblock %}
+
+{% block fbdescription %}
+    In heel Nederland worden er CoderDojo's gehouden. Kijk hier waar er een bij jou in de buurt is!
+{% endblock %}

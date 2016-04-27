@@ -18,6 +18,7 @@
                         <input type="text" class="form-control" id="eid" placeholder="Eventbrite ID">
                     </div>
                     <button type="submit" class="btn btn-success" id="btn_submit">Dojo Toevoegen</button>
+                    <a class="btn btn-primary pull-right" id="btn_add_manually" href="{{ path('manage-add-manually') }}">Dojo handmatig toevoegen</a>
                     <div class="form-group">
                         <p style="display:none;" id="spinner"><img src="{{ asset('/bundles/coderdojowebsite/img/ajax-loader.gif') }}"/></p>
                         <p style="color:#F00 !important;" id="error"></p>
