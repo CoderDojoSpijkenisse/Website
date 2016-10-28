@@ -74,8 +74,26 @@ img.img-circle {
    margin-bottom: 15px;
 }
 
+form ul.error {
+   list-style-type: none;
+   color: #f00;
+   font-weight: bold;
+}
+
+form ul.error li {
+   color: #f00;
+}
+
 /*Navigation
 ------------------------------------*/
+.navbar-header {
+   text-align: center;
+}
+
+.navbar-brand {
+   float:none;
+}
+
 /*Pagination*/
 .pagination > .active > a,
 .pagination > .active > span,
@@ -909,4 +927,37 @@ i.style-switcher-btn-option:hover {
 .partners img {
    max-width: 100%;
    max-height: 150px;
+}
+
+/*---------------------------------------------------*/
+#SkypeButton_Call_coderdojonederland_1 {
+   margin-right:10px;
+   width: 50px;
+   display: inline;
+}
+
+#SkypeButton_Call_coderdojonederland_2,
+#SkypeButton_Call_coderdojonederland_footer,
+#SkypeButton_Chat_coderdojonederland_footer{
+   margin:0;
+   width: 50px;
+   display: inline;
+}
+
+#SkypeButton_Call_coderdojonederland_1_paraElement,
+#SkypeButton_Call_coderdojonederland_2_paraElement,
+#SkypeButton_Call_coderdojonederland_footer_paraElement,
+#SkypeButton_Chat_coderdojonederland_footer_paraElement{
+   margin:0;
+   margin-top:2px;
+   width:50px;
+   display:inline;
+}
+
+#SkypeButton_Call_coderdojonederland_1_paraElement img,
+#SkypeButton_Call_coderdojonederland_2_paraElement img,
+#SkypeButton_Call_coderdojonederland_footer_paraElement img,
+#SkypeButton_Chat_coderdojonederland_footer_paraElement img {
+   margin:0 !important;
+   vertical-align: bottom !important;
 }

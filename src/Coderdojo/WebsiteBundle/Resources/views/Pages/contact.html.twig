@@ -11,6 +11,16 @@
     Neem contact met ons op en wij zullen proberen zo snel mogelijk jouw vraag te beantwoorden!
 {% endblock %}
 
+{% block customjs %}
+    <script type="text/javascript">
+        mixpanel.track("View Contact Page");
+
+        mixpanel.track_forms("#contactform", "Email Sent", {
+            'Dojo Name': $('#contact_ontvanger').find('option:selected').text()
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
 <!--=== Breadcrumbs ===-->
 <div class="breadcrumbs margin-bottom-40">
@@ -28,7 +38,7 @@
 
             <div class="panel panel-green margin-bottom-40">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Contact</h3>
+                    <h3 class="panel-title" style="padding-bottom: 5px;"><i class="icon-envelope"></i> Contact</h3>
                 </div>
                 <div class="panel-body">
                     {% for flashMessage in app.session.flashbag.get('success') %}
@@ -43,14 +53,14 @@
                         Heb je een vraag of suggestie? Neem dan via dit formulier contact ons op.<br/>
                         Wij doen ons uiterste best om zo snel mogelijk te antwoorden!
                     </p>
-                    <form action="{{ path('contact') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal" role="form">
+                    {{ form_start(form, { 'action': path('contact'), 'attr': { 'class': 'fos_user_registration_register form-horizontal' } }) }}
                         {{ form_widget(form) }}
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
                                 <input type="submit" value="Verzenden" class="btn-u btn-u-green" />
                             </div>
                         </div>
-                    </form>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

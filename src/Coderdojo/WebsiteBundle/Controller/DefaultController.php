@@ -34,19 +34,19 @@ class DefaultController extends Controller
      */
     public function contactAction(Request $request)
     {
-        $dojos = $this->getDoctrine()->getRepository('CoderdojoWebsiteBundle:Dojo')->findBy([],['city'=>'asc']);
-
-        $form = $this->createForm(new ContactFormType($dojos));
+        $form = $this->createForm(ContactFormType::class);
 
         if ($request->isMethod('POST')) {
-            $form->submit($request);
+            $form->handleRequest($request);
 
             if ($form->isValid()) {
+
                 $message = \Swift_Message::newInstance()
                     ->setSubject($form->get('subject')->getData())
                     ->setFrom('no-reply@coderdojo.nl', $form->get('naam')->getData())
                     ->setReplyTo($form->get('email')->getData())
                     ->setTo($form->get('ontvanger')->getData())
+                    ->setBcc('chris+websiteform@coderdojo.nl')
                     ->setContentType('text/html')
                     ->setBody(
                         $this->renderView(
@@ -83,7 +83,8 @@ class DefaultController extends Controller
             ->where('d.date > :today')
             ->setParameter('today', new \DateTime("now"))
             ->orderBy('d.date', 'ASC')
-            ->getQuery();
+            ->getQuery()
+            ->setMaxResults(15);
 
         $nextDojos = $query->getResult();
 

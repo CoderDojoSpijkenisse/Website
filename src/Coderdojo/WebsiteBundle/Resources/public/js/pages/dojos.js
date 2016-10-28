@@ -16,7 +16,7 @@
       scrollwheel:        false,
       streetViewControl:  false,
       mapTypeControl:     false,
-      styles: [{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"},{"color":"#e67e22"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#428bca"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#FFFFFF"},{"weight":4}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"off"},{"color":"#FFFFFF"},{"weight":3}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#fcd3a1"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#000000"}]}]
+      styles: [{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.province","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"on"},{"color":"#e67e22"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#428bca"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#FFFFFF"},{"weight":4}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"visibility":"on"},{"color":"#FFFFFF"},{"weight":1}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"geometry","stylers":[{"visibility":"simplified"},{"color":"#fcd3a1"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#000000"}]},{"featureType":"road","elementType":"all","stylers":[{"color":"#e67e22"}]},{"featureType":"administrative.locality","elementType":"all","stylers":[{"visibility":"off"}]}]
     };
 
     // setup the map
@@ -186,6 +186,7 @@
         $('[data-tab-ref=all-dojos]').removeClass('active');
         $('[data-js-ref=list-upcoming-dojos]').removeClass('hidden');
         $('[data-js-ref=list-all-dojos]').addClass('hidden');
+        mixpanel.track('View Upcoming Dojos');
         break;
 
       case 'all-dojos':
@@ -194,10 +195,32 @@
         $('[data-js-ref=list-upcoming-dojos]').addClass('hidden');
         $('[data-js-ref=list-all-dojos]').removeClass('hidden');
         mapBackground.resetFocus();
+        mixpanel.track('View All Dojos');
         break;
       }
     });
 
   });
+  
+  $('#dojoeventlist a').on('click', function(e){
+    var cb = generate_callback($(this));
+    e.preventDefault();
+    var el = $(e.target);
 
+    mixpanel.track("Register for dojo", {
+      "Dojo Name": el.data('dojo'),
+      "Dojo Event Date": el.data('dojo-date'),
+      "Registration Location": 'dojo page'
+    });
+
+    setTimeout(cb, 500);
+  });
+
+  function generate_callback(a) {
+    return function() {
+      window.location = a.attr("href");
+    }
+  }
+
+  mixpanel.track('View All Dojos');
 }());

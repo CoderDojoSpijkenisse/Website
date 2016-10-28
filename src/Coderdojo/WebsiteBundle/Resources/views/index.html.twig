@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}Bij CoderDojo kunnen kinderen van 7 t/m 17 jaar leren programmeren. Dit wordt helemaal gratis verzorgd door vrijwilligers!
 Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% endblock %}">
-    <meta name="author" content="Christian Vermeulen">
 
     <!-- FB tags -->
     <meta property="og:title" content="{% block fbtitle %}CoderDojo Nederland{% endblock %}"/>
@@ -62,10 +61,25 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
     <!-- CSS Theme -->
     <link rel="stylesheet" href="{{asset('bundles/coderdojowebsite/css/themes/orange.css')}}" id="style_color">
     <link rel="stylesheet" href="{{asset('bundles/coderdojowebsite/css/themes/headers/header1-orange.css')}}" id="style_color-header-1">
-    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
 
     <!-- jQuery -->
     <script type="text/javascript" src="{{asset('bundles/coderdojowebsite/plugins/jquery-1.10.2.min.js')}}"></script>
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+        (function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+            for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+
+        mixpanel.init("57902588769ed6b5b2ba69e7d32329b1");
+
+        {% if app.environment != 'prod' %}
+            mixpanel.disable();
+        {% endif %}
+    </script>
+    <!-- end Mixpanel -->
+    <!-- Mailchimp -->
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us13.list-manage.com","uuid":"8ec0b28920a640e210372bee9","lid":"f763b9923d"}) })</script>
+    <!-- end mailchimp -->
+    <script type="text/javascript" src="https://secure.skypeassets.com/i/scom/js/skype-uri.js"></script>
 </head>
 
 <body>
@@ -89,26 +103,31 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-responsive-collapse">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav">
+                    <li {% if app.request.get('_route') == 'home' %}class="active"{% endif %}>
+                        <a href="{{ path('home') }}">
+                            Home
+                        </a>
+                    </li>
                     <li {% if app.request.get('_route') == 'dojos' %}class="active"{% endif %}>
                         <a href="{{ path('dojos') }}">
-                            Waar
+                            Locaties
                         </a>
                     </li>
                     <li class="dropdown {% if app.request.get('_route') in ['mentors','setup', 'material'] %}active{% endif %}">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">
-                            Meehelpen
+                        <a href="{{ path('setup') }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">
+                            Jouw Dojo
                             <i class="icon-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
+                            <li {% if app.request.get('_route') == 'setup' %}class="active"{% endif %}>
+                                <a href="{{ path('setup') }}">
+                                    Start een Dojo
+                                </a>
+                            </li>
                             <li {% if app.request.get('_route') == 'mentors' %}class="active"{% endif %}>
                                 <a href="{{ path('mentors') }}">
                                     Word mentor
-                                </a>
-                            </li>
-                            <li {% if app.request.get('_route') == 'setup' %}class="active"{% endif %}>
-                                <a href="{{ path('setup') }}">
-                                    Start een dojo
                                 </a>
                             </li>
                             <li {% if app.request.get('_route') == 'material' %}class="active"{% endif %}>
@@ -118,12 +137,22 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown {% if app.request.get('_route') in ['codeqube','ziggo'] %}active{% endif %}">
+                    <li class="dropdown {% if app.request.get('_route') in ['codeqube','ziggo', 'eucodeweek'] %}active{% endif %}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">
                             Samenwerkingen
                             <i class="icon-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
+                            <li {% if app.request.get('_route') == 'books' %}class="active"{% endif %}>
+                                <a href="{{ path('books') }}">
+                                    Verdien het CoderDojo Boek
+                                </a>
+                            </li>
+                            <li {% if app.request.get('_route') == 'eucodeweek' %}class="active"{% endif %}>
+                                <a href="{{ path('eucodeweek') }}">
+                                    EU CodeWeek 2016
+                                </a>
+                            </li>
                             <li {% if app.request.get('_route') == 'codeqube' %}class="active"{% endif %}>
                                 <a href="{{ path('codeqube') }}">
                                     Code Qube On Tour
@@ -136,12 +165,17 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown {% if app.request.get('_route') in ['foundation', 'about', 'contact', 'slack'] %}active{% endif %}">
+                    <li class="dropdown {% if app.request.get('_route') in ['foundation', 'about', 'contact'] %}active{% endif %}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false">
                             De Stichting
                             <i class="icon-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
+                            <li {% if app.request.get('_route') == 'newsletter' %}class="active"{% endif %}>
+                                <a href="{{ path('newsletter') }}">
+                                    Nieuwsbrief
+                                </a>
+                            </li>
                             <li {% if app.request.get('_route') == 'foundation' %}class="active"{% endif %}>
                                 <a href="{{ path('foundation') }}">
                                    Over de Stichting
@@ -157,13 +191,14 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
                                     Contact
                                 </a>
                             </li>
-                            <li {% if app.request.get('_route') == 'slack' %}class="active"{% endif %}>
-                                <a href="{{ path('slack') }}">
-                                    Slack Community
-                                </a>
-                            </li>
                         </ul>
                     </li>
+                    <li {% if app.request.get('_route') == 'slack' %}class="active"{% endif %}>
+                        <a href="{{ path('slack') }}">
+                            Slack Community
+                        </a>
+                    </li>
+                    <!--
                     <li>
                         <ul class="social-icons social-icons-color">
                             <li>
@@ -177,7 +212,7 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
                             </li>
                         </ul>
                     </li>
-                    <!--
+
                         <li>
                             <a href="#">
                                 Start een CoderDojo
@@ -223,6 +258,27 @@ Ben je ouder? Wordt dan mentor bij een Dojo of start jouw eigen CoderDojo!{% end
                         <a href="{{ path('fos_user_registration_register') }}">Registreer jouw dojo</a>
                     {% endif %}
                 </p>
+                <div id="SkypeButton_Call_coderdojonederland_footer">
+                    <script type="text/javascript">
+                        Skype.ui({
+                            "name": "call",
+                            "element": "SkypeButton_Call_coderdojonederland_footer",
+                            "participants": ["live:contact_38802"],
+                            "imageColor": "white"
+                        });
+                    </script>
+                </div>
+                <span style="color: #fff">|</span>
+                <div id="SkypeButton_Chat_coderdojonederland_footer">
+                    <script type="text/javascript">
+                        Skype.ui({
+                            "name": "chat",
+                            "element": "SkypeButton_Chat_coderdojonederland_footer",
+                            "participants": ["live:contact_38802"],
+                            "imageColor": "white"
+                        });
+                    </script>
+                </div>
             </div>
             <div class="col-sm-12 col-md-3">
                 <ul class="social-icons right">
